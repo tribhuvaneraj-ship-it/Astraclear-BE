@@ -30,22 +30,10 @@ const app = express();
 // Security middleware
 app.use(helmet());
 
-const allowedOrigins = [
-    'http://localhost:5173',
-    'https://astraclear-1969.web.app',
-    process.env.CLIENT_URL,
-].filter(Boolean);
-
 const corsOptions = {
-    origin: (origin, callback) => {
-        if (!origin) return callback(null, true);
-        const normalized = origin.replace(/\.+$/, '');
-        if (allowedOrigins.includes(normalized) || normalized.endsWith('.web.app')) {
-            return callback(null, true);
-        }
-        callback(new Error('Not allowed by CORS'));
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: true,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
 app.use(cors(corsOptions));
